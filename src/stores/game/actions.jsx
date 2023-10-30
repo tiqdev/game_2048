@@ -48,8 +48,6 @@ export const addNumberToRandomPlace = () => {
 
   let randomNumber = Math.random() < 0.9 ? 2 : 4;
 
-  console.log(randomRow, randomColumn, randomNumber);
-
   let newBoard = board.map((row, row_index) => {
     return row.map((cell, cell_index) => {
       if (row_index === randomRow && cell_index === randomColumn) {
@@ -59,8 +57,6 @@ export const addNumberToRandomPlace = () => {
       }
     });
   });
-
-  console.log(newBoard);
 
   newBoard[randomRow][randomColumn] = randomNumber;
 
@@ -73,14 +69,11 @@ export const resetGame = () => {
 
   let newBoard = [...Array(4)].map(() => [...Array(4)].map(() => 0));
 
-  let randomRow = Math.floor(Math.random() * 4);
-  let randomColumn = Math.floor(Math.random() * 4);
-
-  newBoard[randomRow][randomColumn] = 2;
-
   setBoard(newBoard);
   setScore(0);
   setGameOver(false);
+  addNumberToRandomPlace();
+  addNumberToRandomPlace();
   setNumbers(numbers);
 };
 
@@ -121,6 +114,7 @@ export const moveLeft = () => {
 
   if (score > highScore) {
     highScore = score;
+    setHighScoreToLocalStorage(highScore);
   }
 
   setBoard(newBoard);
@@ -167,6 +161,7 @@ export const moveRight = () => {
 
   if (score > highScore) {
     highScore = score;
+    setHighScoreToLocalStorage(highScore);
   }
 
   setBoard(newBoard);
@@ -194,6 +189,7 @@ export const moveUp = () => {
       if (newColumn[i] === newColumn[i - 1]) {
         newColumn[i] = newColumn[i] * 2;
         newColumn[i - 1] = 0;
+        score += newColumn[i];
       }
     }
 
@@ -224,6 +220,7 @@ export const moveUp = () => {
 
   if (score > highScore) {
     highScore = score;
+    setHighScoreToLocalStorage(highScore);
   }
 
   setBoard(modifiedBoard);
@@ -251,6 +248,7 @@ export const moveDown = () => {
       if (newColumn[i] === newColumn[i + 1]) {
         newColumn[i] = newColumn[i] * 2;
         newColumn[i + 1] = 0;
+        score += newColumn[i];
       }
     }
 
@@ -281,6 +279,7 @@ export const moveDown = () => {
 
   if (score > highScore) {
     highScore = score;
+    setHighScoreToLocalStorage(highScore);
   }
 
   setBoard(modifiedBoard);
@@ -288,4 +287,20 @@ export const moveDown = () => {
   setHighScore(highScore);
   setGameOver(gameOver);
   setNumbers(numbers);
+};
+
+export const getHighScore = () => {
+  //get data from local storage
+  let highScore = window.localStorage.getItem("highScore");
+
+  //if there is no data in local storage
+  if (highScore === null) {
+    //set high score to 0
+    highScore = 0;
+  }
+  setHighScore(highScore);
+};
+
+export const setHighScoreToLocalStorage = (highScore) => {
+  window.localStorage.setItem("highScore", highScore);
 };
