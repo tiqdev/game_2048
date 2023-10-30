@@ -52,6 +52,47 @@ const initialState = {
             value: 2048,
             color: '#AA7ABF'
         },
+        {
+            value: 4096,
+            color: '#AA7ABF'
+        },
+        {
+            value: 8192,
+            color: '#AA7ABF'
+        },
+        {
+            value: 16384,
+            color: '#AA7ABF'
+        },
+        {
+            value: 32768,
+            color: '#AA7ABF'
+        },
+        {
+            value: 65536,
+            color: '#AA7ABF'
+        },
+        {
+            value: 131072,
+            color: '#AA7ABF'
+        },
+        {
+            value: 262144,
+            color: '#AA7ABF'
+        },
+        {
+            value: 524288,
+            color: '#AA7ABF'
+        },
+        {
+            value: 1048576,
+            color: '#AA7ABF'
+        },
+        {
+            value: 2097152,
+            color: '#AA7ABF'
+        },
+
     ],
     highScore: 0,
     score: 0,

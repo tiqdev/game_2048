@@ -81,7 +81,6 @@ export const moveLeft = () => {
   let board = store.getState().game.board;
   let score = store.getState().game.score;
   let highScore = store.getState().game.highScore;
-  let gameOver = store.getState().game.gameOver;
   let numbers = store.getState().game.numbers;
 
   let newBoard = board.map((row) => {
@@ -104,14 +103,6 @@ export const moveLeft = () => {
     return newRow;
   });
 
-  let gameOverCheck = newBoard.every((row) => {
-    return row.every((cell) => cell !== 0);
-  });
-
-  if (gameOverCheck) {
-    gameOver = true;
-  }
-
   if (score > highScore) {
     highScore = score;
     setHighScoreToLocalStorage(highScore);
@@ -120,7 +111,7 @@ export const moveLeft = () => {
   setBoard(newBoard);
   setScore(score);
   setHighScore(highScore);
-  setGameOver(gameOver);
+  isGameOver();
   setNumbers(numbers);
 };
 
@@ -128,7 +119,6 @@ export const moveRight = () => {
   let board = store.getState().game.board;
   let score = store.getState().game.score;
   let highScore = store.getState().game.highScore;
-  let gameOver = store.getState().game.gameOver;
   let numbers = store.getState().game.numbers;
 
   let newBoard = board.map((row) => {
@@ -151,14 +141,6 @@ export const moveRight = () => {
     return newRow;
   });
 
-  let gameOverCheck = newBoard.every((row) => {
-    return row.every((cell) => cell !== 0);
-  });
-
-  if (gameOverCheck) {
-    gameOver = true;
-  }
-
   if (score > highScore) {
     highScore = score;
     setHighScoreToLocalStorage(highScore);
@@ -167,7 +149,7 @@ export const moveRight = () => {
   setBoard(newBoard);
   setScore(score);
   setHighScore(highScore);
-  setGameOver(gameOver);
+  isGameOver();
   setNumbers(numbers);
 };
 
@@ -175,7 +157,6 @@ export const moveUp = () => {
   let board = store.getState().game.board;
   let score = store.getState().game.score;
   let highScore = store.getState().game.highScore;
-  let gameOver = store.getState().game.gameOver;
   let numbers = store.getState().game.numbers;
 
   let newBoard = board.map((row, row_index) => {
@@ -210,14 +191,6 @@ export const moveUp = () => {
     return modified_row;
   });
 
-  let gameOverCheck = newBoard.every((row) => {
-    return row.every((cell) => cell !== 0);
-  });
-
-  if (gameOverCheck) {
-    gameOver = true;
-  }
-
   if (score > highScore) {
     highScore = score;
     setHighScoreToLocalStorage(highScore);
@@ -226,7 +199,7 @@ export const moveUp = () => {
   setBoard(modifiedBoard);
   setScore(score);
   setHighScore(highScore);
-  setGameOver(gameOver);
+  isGameOver();
   setNumbers(numbers);
 };
 
@@ -234,7 +207,6 @@ export const moveDown = () => {
   let board = store.getState().game.board;
   let score = store.getState().game.score;
   let highScore = store.getState().game.highScore;
-  let gameOver = store.getState().game.gameOver;
   let numbers = store.getState().game.numbers;
 
   let newBoard = board.map((row, row_index) => {
@@ -269,14 +241,6 @@ export const moveDown = () => {
     return modified_row;
   });
 
-  let gameOverCheck = newBoard.every((row) => {
-    return row.every((cell) => cell !== 0);
-  });
-
-  if (gameOverCheck) {
-    gameOver = true;
-  }
-
   if (score > highScore) {
     highScore = score;
     setHighScoreToLocalStorage(highScore);
@@ -285,7 +249,7 @@ export const moveDown = () => {
   setBoard(modifiedBoard);
   setScore(score);
   setHighScore(highScore);
-  setGameOver(gameOver);
+  isGameOver();
   setNumbers(numbers);
 };
 
@@ -303,4 +267,73 @@ export const getHighScore = () => {
 
 export const setHighScoreToLocalStorage = (highScore) => {
   window.localStorage.setItem("highScore", highScore);
+};
+
+export const isGameOver = () => {
+  let board = store.getState().game.board;
+  let gameOver = store.getState().game.gameOver;
+
+  let gameOverCheck = board.every((row) => {
+    return row.every((cell) => cell !== 0);
+  });
+
+  let isLeftMovePossible = board.some((row, row_index) => {
+    return row.some((cell, cell_index) => {
+      if (cell === board[row_index][cell_index - 1]) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+
+  let isRightMovePossible = board.some((row, row_index) => {
+    return row.some((cell, cell_index) => {
+      if (cell === board[row_index][cell_index + 1]) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+
+  let isUpMovePossible = board.some((row, row_index) => {
+    let column = [...Array(row.length)].map(
+      (_, index) => board[index][row_index]
+    );
+
+    return column.some((cell, cell_index) => {
+      if (cell === column[cell_index - 1]) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+
+  let isDownMovePossible = board.some((row, row_index) => {
+    let column = [...Array(row.length)].map(
+      (_, index) => board[index][row_index]
+    );
+
+    return column.some((cell, cell_index) => {
+      if (cell === column[cell_index + 1]) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  });
+
+  if (
+    gameOverCheck &&
+    !isLeftMovePossible &&
+    !isRightMovePossible &&
+    !isUpMovePossible &&
+    !isDownMovePossible
+  ) {
+    gameOver = true;
+  }
+
+  setGameOver(gameOver);
 };
