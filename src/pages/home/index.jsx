@@ -20,8 +20,11 @@ import {
   useScore,
 } from "~/stores/game/hooks";
 import classNames from "classnames";
+import Div100vh from "react-div-100vh";
+import { useSwipeable } from "react-swipeable";
 
 const Home = () => {
+  //When game starts, we add two numbers to the board and get Highscore from local storage
   useEffect(() => {
     getHighScore();
     addNumberToRandomPlace();
@@ -55,8 +58,41 @@ const Home = () => {
     }
   });
 
+  const config = {
+    delta: 10, // min distance(px) before a swipe starts. *See Notes*
+    preventScrollOnSwipe: false, // prevents scroll during swipe (*See Details*)
+    trackTouch: true, // track touch input
+    trackMouse: false, // track mouse input
+    rotationAngle: 0, // set a rotation angle
+    swipeDuration: Infinity, // allowable duration of a swipe (ms). *See Notes*
+    touchEventOptions: { passive: true }, // options for touch listeners (*See Details*)
+  };
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      moveLeft();
+      addNumberToRandomPlace();
+    },
+    onSwipedRight: () => {
+      moveRight();
+      addNumberToRandomPlace();
+    },
+    onSwipedUp: () => {
+      moveUp();
+      addNumberToRandomPlace();
+    },
+    onSwipedDown: () => {
+      moveDown();
+      addNumberToRandomPlace();
+    },
+    ...config,
+  });
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full bg-colorBg gap-4">
+    <Div100vh
+      {...handlers}
+      className="flex flex-col items-center justify-center h-screen w-full bg-colorBg gap-4"
+    >
       <div className="flex  w-full max-w-[300px] items-center justify-between relative mb-4">
         <h1 className="text-4xl font-bold text-white flex-1 text-center">
           2048
@@ -153,7 +189,7 @@ const Home = () => {
           </div>
         )}
       </div>
-    </div>
+    </Div100vh>
   );
 };
 
