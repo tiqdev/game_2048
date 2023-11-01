@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     board: [
-        [2, 0, 0, 8],
-        [128, 64, 32, 16],
-        [256, 512, 1024, 2048],
-        [4096, 8192, 16384, 32768]
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
     ],
     numbers: [
         {
