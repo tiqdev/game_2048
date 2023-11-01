@@ -43,6 +43,10 @@ export const addNumberToRandomPlace = () => {
 
   let randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
+  if (randomCell === undefined) {
+    return;
+  }
+
   let randomRow = randomCell.row;
   let randomColumn = randomCell.column;
 

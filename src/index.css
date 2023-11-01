@@ -1,11 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800;900&display=swap");
+@font-face {
+  font-family: "Digitalt";
+  src: url("Digitalt.woff2") format("woff2"),
+    url("Digitalt.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Digitalt";
+  src: url("/fonts/Digitalt.woff2") format("woff2"),
+    url("/fonts/Digitalt.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Digitalt", sans-serif;
   margin: 0;
   padding: 0;
   -webkit-user-select: none; /* Safari */
@@ -16,4 +33,26 @@
 html {
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+.shake {
+  animation: shake 0.1s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(10px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }

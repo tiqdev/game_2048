@@ -94,24 +94,24 @@ const Home = () => {
       className="flex flex-col items-center justify-center h-screen w-full bg-colorBg gap-4"
     >
       <div className="flex  w-full max-w-[300px] items-center justify-between relative mb-4">
-        <h1 className="text-4xl font-bold text-white flex-1 text-center">
+        <h1 className="text-4xl font-medium text-[#f5faff] flex-1 tracking-widest text-center">
           2048
         </h1>
         <VscDebugRestart
           onClick={() => {
             resetGame();
           }}
-          className="cursor-pointer text-2xl text-white absolute right-0 top-1/2 -translate-y-1/2"
+          className="cursor-pointer text-2xl text-[#f5faff] absolute right-0 top-1/2 -translate-y-1/2"
         />
       </div>
 
       {/* Score */}
-      <div className="flex  w-full max-w-[300px]  items-center justify-between">
+      <div className="flex w-full max-w-[300px] items-center justify-between">
         <div
           className={classNames(
-            "flex items-center justify-center gap-2 font-medium",
+            "flex items-center justify-center gap-2 font-medium tracking-wide",
             {
-              "text-white": score < highScore,
+              "text-[#f5faff]": score < highScore,
               "text-color128": score >= highScore,
             }
           )}
@@ -122,17 +122,17 @@ const Home = () => {
 
         <div
           className={classNames("flex items-center justify-center gap-2", {
-            "text-white": score < highScore,
+            "text-[#f5faff]": score < highScore,
             "text-color128": score >= highScore,
           })}
         >
-          <span className="font-medium">{highScore}</span>
+          <span className="font-normal tracking-wide">{highScore}</span>
           <BsFillTrophyFill className="text-2xl" />
         </div>
       </div>
 
       {/* Board */}
-      <div className="grid grid-cols-4 gap-3 p-3 bg-colorBoard rounded-board shadow-board relative">
+      <div className="grid grid-cols-4 gap-3 p-3 h-[316px] bg-colorBoard rounded-board shadow-board relative">
         {board.map((col, col_index) =>
           col.map((row, row_index) =>
             board[col_index][row_index] !== 0 ? (
@@ -144,23 +144,40 @@ const Home = () => {
                   stiffness: 260,
                   damping: 20,
                 }}
+                className="relative"
                 key={row_index}
-                className="w-16 h-16 rounded-cell flex items-center justify-center"
-                style={{
-                  backgroundColor: numbers.find(
-                    (number) => number.value === board[col_index][row_index]
-                  ).color,
-                }}
               >
-                <span
-                  className={classNames("text-white font-medium", {
-                    "text-[30px]": board[col_index][row_index] < 1024,
-                    "text-[24px]": 1024 < board[col_index][row_index] < 10000,
-                    "text-[18px]": 10000 < board[col_index][row_index],
-                  })}
+                <div
+                  className="w-16 h-16 rounded-cell flex items-center justify-center z-10 relative"
+                  style={{
+                    backgroundColor: numbers.find(
+                      (number) => number.value === board[col_index][row_index]
+                    ).color,
+                  }}
                 >
-                  {board[col_index][row_index]}
-                </span>
+                  <span
+                    className={classNames(
+                      "text-[#f5faff] font-medium tracking-wide text-center",
+                      {
+                        "text-[30px]": board[col_index][row_index] < 1024,
+                        "text-[24px]":
+                          1024 < board[col_index][row_index] < 10000,
+                        "text-[18px]": 10000 < board[col_index][row_index],
+                      }
+                    )}
+                  >
+                    {board[col_index][row_index]}
+                  </span>
+                </div>
+                <div
+                  className="w-16 h-[68px] rounded-cell flex items-center justify-center absolute top-0 left-0 z-0"
+                  style={{
+                    backgroundColor: numbers.find(
+                      (number) => number.value === board[col_index][row_index]
+                    ).color,
+                    filter: "brightness(0.8)",
+                  }}
+                ></div>
               </motion.div>
             ) : (
               <div
@@ -172,9 +189,9 @@ const Home = () => {
         )}
 
         {gameOver && (
-          <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-white bg-opacity-80 rounded-board">
+          <div className="absolute top-0 left-0 w-full h-full flex items-center z-20 justify-center bg-[#f5faff] bg-opacity-80 rounded-board">
             <div className="flex flex-col items-center justify-center gap-2">
-              <span className="text-colorBg text-2xl font-bold">
+              <span className="text-colorBg text-2xl font-bold tracking-wide">
                 Game Over!
               </span>
               <button

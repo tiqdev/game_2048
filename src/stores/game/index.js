@@ -2,95 +2,95 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     board: [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
+        [2, 0, 0, 8],
+        [128, 64, 32, 16],
+        [256, 512, 1024, 2048],
+        [4096, 8192, 16384, 32768]
     ],
     numbers: [
         {
             value: 2,
-            color: '#06434C'
+            color: '#ff636c'
         },
         {
             value: 4,
-            color: '#116073'
+            color: '#ba2941'
         },
         {
             value: 8,
-            color: '#0C7F96'
+            color: '#d9472b'
         },
         {
             value: 16,
-            color: '#109687'
+            color: '#992349'
         },
         {
             value: 32,
-            color: '#3EB26B'
+            color: '#501733'
         },
         {
             value: 64,
-            color: '#91C357'
+            color: '#71323c'
         },
         {
             value: 128,
-            color: '#E0B237'
+            color: '#ae7069'
         },
         {
             value: 256,
-            color: '#DD9351'
+            color: '#ff9f2e'
         },
         {
             value: 512,
-            color: '#D85E69'
+            color: '#f86c27'
         },
         {
             value: 1024,
-            color: '#BE639B'
+            color: '#ba3872'
         },
         {
             value: 2048,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 4096,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 8192,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 16384,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 32768,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 65536,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 131072,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 262144,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 524288,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 1048576,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
         {
             value: 2097152,
-            color: '#AA7ABF'
+            color: '#6c2b68'
         },
 
     ],
