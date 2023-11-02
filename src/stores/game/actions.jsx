@@ -1,11 +1,27 @@
 import store from "..";
+import { Howl } from "howler";
 import {
   _setBoard,
   _setHighScore,
   _setScore,
   _setGameOver,
   _setNumbers,
+  _setIsMuted,
 } from ".";
+
+export const swipe = new Howl({
+  src: ["/sounds/swipe.mp3"],
+  volume: 1,
+  loop: false,
+  preload: true,
+});
+
+export const newgame_sound = new Howl({
+  src: ["/sounds/button-press.wav"],
+  volume: 1,
+  loop: false,
+  preload: true,
+});
 
 export const setBoard = (board) => {
   store.dispatch(_setBoard(board));
@@ -284,6 +300,7 @@ export const isGameOver = () => {
   let isLeftMovePossible = board.some((row, row_index) => {
     return row.some((cell, cell_index) => {
       if (cell === board[row_index][cell_index - 1]) {
+        swipe.play();
         return true;
       } else {
         return false;
@@ -294,6 +311,7 @@ export const isGameOver = () => {
   let isRightMovePossible = board.some((row, row_index) => {
     return row.some((cell, cell_index) => {
       if (cell === board[row_index][cell_index + 1]) {
+        swipe.play();
         return true;
       } else {
         return false;
@@ -308,6 +326,7 @@ export const isGameOver = () => {
 
     return column.some((cell, cell_index) => {
       if (cell === column[cell_index - 1]) {
+        swipe.play();
         return true;
       } else {
         return false;
@@ -322,6 +341,7 @@ export const isGameOver = () => {
 
     return column.some((cell, cell_index) => {
       if (cell === column[cell_index + 1]) {
+        swipe.play();
         return true;
       } else {
         return false;
@@ -340,4 +360,13 @@ export const isGameOver = () => {
   }
 
   setGameOver(gameOver);
+};
+
+export const setIsMuted = (value) => {
+  store.dispatch(_setIsMuted(value));
+
+  swipe.mute(value === "on" ? false : true);
+  newgame_sound.mute(value === "on" ? false : true);
+
+  window.localStorage.setItem("sound", value);
 };

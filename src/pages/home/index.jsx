@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useKeyboard } from "~/hooks/useKeyboard";
 import { motion } from "framer-motion";
-import { BsFillTrophyFill } from "react-icons/bs";
-import { VscDebugRestart } from "react-icons/vsc";
+import { FaVolumeLow, FaVolumeXmark } from "react-icons/fa6";
 import {
   addNumberToRandomPlace,
   getHighScore,
@@ -10,18 +9,22 @@ import {
   moveLeft,
   moveRight,
   moveUp,
+  newgame_sound,
   resetGame,
+  setIsMuted,
 } from "~/stores/game/actions";
 import {
   useBoard,
   useGameOver,
   useHighScore,
+  useIsMuted,
   useNumbers,
   useScore,
 } from "~/stores/game/hooks";
 import classNames from "classnames";
 import Div100vh from "react-div-100vh";
 import { useSwipeable } from "react-swipeable";
+import { formatNumberWithDot } from "~/utils/formatNumber";
 
 const Home = () => {
   //When game starts, we add two numbers to the board and get Highscore from local storage
@@ -31,11 +34,22 @@ const Home = () => {
     addNumberToRandomPlace();
   }, []);
 
+  useEffect(() => {
+    let storage_isMuted = window.localStorage.getItem("sound");
+    if (storage_isMuted === null) {
+      window.localStorage.setItem("sound", "on");
+      setIsMuted("off");
+    } else {
+      setIsMuted(storage_isMuted);
+    }
+  }, []);
+
   let board = useBoard();
   let numbers = useNumbers();
   let score = useScore();
   let highScore = useHighScore();
   let gameOver = useGameOver();
+  let isMuted = useIsMuted();
 
   useKeyboard((event) => {
     switch (event.key) {
@@ -93,46 +107,50 @@ const Home = () => {
       {...handlers}
       className="flex flex-col items-center justify-center h-screen w-full bg-colorBg gap-4"
     >
-      <div className="flex  w-full max-w-[300px] items-center justify-between relative mb-4">
-        <h1 className="text-4xl font-medium text-[#f5faff] flex-1 tracking-widest text-center">
-          2048
-        </h1>
-        <VscDebugRestart
+      {/* Score */}
+
+      {/*
+         <VscDebugRestart
           onClick={() => {
             resetGame();
           }}
           className="cursor-pointer text-2xl text-[#f5faff] absolute right-0 top-1/2 -translate-y-1/2"
         />
-      </div>
+        */}
 
-      {/* Score */}
-      <div className="flex w-full max-w-[300px] items-center justify-between">
-        <div
-          className={classNames(
-            "flex items-center justify-center gap-2 font-medium tracking-wide",
-            {
-              "text-[#f5faff]": score < highScore,
-              "text-color128": score >= highScore,
-            }
-          )}
-        >
-          <span>SCORE</span>
-          <span>{score}</span>
+      <div className="flex w-full max-w-[316px] items-center">
+        <div className="flex flex-col w-full max-w-[316px] items-start justify-between">
+          <div
+            className={classNames(
+              "flex items-center justify-center font-medium tracking-wider",
+              {
+                "text-[#f5faff]": score < highScore,
+                "text-color128": score >= highScore,
+              }
+            )}
+          >
+            <span>SCORE : {formatNumberWithDot(score)} </span>
+          </div>
+
+          <div
+            className={classNames(
+              "flex items-center w-full justify-start gap-2 font-medium tracking-wider",
+              {
+                "text-[#f5faff]": score < highScore,
+                "text-color128": score >= highScore,
+              }
+            )}
+          >
+            {/* format highscore */}
+            <span>BEST : {formatNumberWithDot(highScore)}</span>
+          </div>
         </div>
 
-        <div
-          className={classNames("flex items-center justify-center gap-2", {
-            "text-[#f5faff]": score < highScore,
-            "text-color128": score >= highScore,
-          })}
-        >
-          <span className="font-normal tracking-wide">{highScore}</span>
-          <BsFillTrophyFill className="text-2xl" />
-        </div>
+        <img src="/image/png/512.png" className="w-14 h-14" alt="" />
       </div>
 
       {/* Board */}
-      <div className="grid grid-cols-4 gap-3 p-3 h-[316px] bg-colorBoard rounded-board shadow-board relative">
+      <div className="grid grid-cols-4 h-[316px] gap-3 p-3 bg-colorBoard rounded-board shadow-board relative">
         {board.map((col, col_index) =>
           col.map((row, row_index) =>
             board[col_index][row_index] !== 0 ? (
@@ -144,11 +162,11 @@ const Home = () => {
                   stiffness: 260,
                   damping: 20,
                 }}
-                className="relative"
+                className="relative w-16 h-16"
                 key={row_index}
               >
                 <div
-                  className="w-16 h-16 rounded-cell flex items-center justify-center z-10 relative"
+                  className="w-16 h-[60px] rounded-cell flex items-center justify-center z-10 relative"
                   style={{
                     backgroundColor: numbers.find(
                       (number) => number.value === board[col_index][row_index]
@@ -170,7 +188,7 @@ const Home = () => {
                   </span>
                 </div>
                 <div
-                  className="w-16 h-[68px] rounded-cell flex items-center justify-center absolute top-0 left-0 z-0"
+                  className="w-16 h-16 rounded-cell flex items-center justify-center absolute top-0 left-0 z-0"
                   style={{
                     backgroundColor: numbers.find(
                       (number) => number.value === board[col_index][row_index]
@@ -205,6 +223,62 @@ const Home = () => {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className=" mt-2 flex justify-between  w-full max-w-[316px]">
+        <div className="relative h-[40px] flex">
+          <motion.div
+            whileTap={{ top: 0 }}
+            //make faster
+            transition={{ duration: 0.1 }}
+            onClick={() => {
+              setIsMuted(isMuted === "on" ? "off" : "on");
+            }}
+            className="flex relative items-center h-[40px] bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer -top-1 text-colorBg z-20"
+          >
+            {isMuted === "on" ? (
+              <FaVolumeLow className="" />
+            ) : (
+              <FaVolumeXmark className="" />
+            )}
+          </motion.div>
+          <div
+            className="flex bg-colorBoard h-[40px] px-4 py-2 rounded-[8px] cursor-pointer text-colorBoard top-0 right-0 absolute z-10"
+            style={{
+              filter: "brightness(0.8)",
+            }}
+          >
+            {isMuted === "on" ? (
+              <FaVolumeXmark className="" />
+            ) : (
+              <FaVolumeLow className="" />
+            )}
+          </div>
+        </div>
+
+        <div className="relative">
+          <motion.div
+            whileTap={{ top: 0 }}
+            //make faster
+            transition={{ duration: 0.1 }}
+            onClick={() => {
+              newgame_sound.play();
+              resetGame();
+            }}
+            className="flex relative bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer -top-1 text-colorBg z-20"
+          >
+            NEW GAME
+          </motion.div>
+          <div
+            className="flex bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer text-colorBoard top-0 right-0 absolute z-10"
+            style={{
+              filter: "brightness(0.8)",
+            }}
+          >
+            NEW GAME
+          </div>
+        </div>
       </div>
     </Div100vh>
   );

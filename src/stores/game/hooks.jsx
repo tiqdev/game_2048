@@ -5,3 +5,4 @@ export const useHighScore = () => useSelector((state) => state.game.highScore);
 export const useScore = () => useSelector((state) => state.game.score);
 export const useGameOver = () => useSelector((state) => state.game.gameOver);
 export const useNumbers = () => useSelector((state) => state.game.numbers);
+export const useIsMuted = () => useSelector((state) => state.game.isMuted);

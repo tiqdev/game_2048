@@ -1,28 +1,11 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800;900&display=swap");
-@font-face {
-  font-family: "Digitalt";
-  src: url("Digitalt.woff2") format("woff2"),
-    url("Digitalt.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Digitalt";
-  src: url("/fonts/Digitalt.woff2") format("woff2"),
-    url("/fonts/Digitalt.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: "Digitalt", sans-serif;
+  font-family: "Lilita One", sans-serif;
   margin: 0;
   padding: 0;
   -webkit-user-select: none; /* Safari */

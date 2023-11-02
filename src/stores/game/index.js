@@ -97,6 +97,7 @@ const initialState = {
     highScore: 0,
     score: 0,
     gameOver: false,
+    isMuted: false,
 }
 
 const game = createSlice({
@@ -121,7 +122,11 @@ const game = createSlice({
 
         _setGameOver: (state, action) => {
             state.gameOver = action.payload;
+        },
+        _setIsMuted: (state, action) => {
+            state.isMuted = action.payload;
         }
+
     }
 })
 
@@ -131,6 +136,7 @@ export const {
     _setScore,
     _setGameOver,
     _setNumbers,
+    _setIsMuted
 } = game.actions;
 
 export default game.reducer;
