@@ -227,6 +227,28 @@ const Home = () => {
 
       {/* Footer */}
       <div className=" mt-2 flex justify-between  w-full max-w-[316px]">
+        <div className="relative">
+          <motion.div
+            whileTap={{ top: 0 }}
+            //make faster
+            transition={{ duration: 0.1 }}
+            onClick={() => {
+              newgame_sound.play();
+              resetGame();
+            }}
+            className="flex relative bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer -top-1 text-colorBg z-20"
+          >
+            NEW GAME
+          </motion.div>
+          <div
+            className="flex bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer text-colorBoard top-0 right-0 absolute z-10"
+            style={{
+              filter: "brightness(0.8)",
+            }}
+          >
+            NEW GAME
+          </div>
+        </div>
         <div className="relative h-[40px] flex">
           <motion.div
             whileTap={{ top: 0 }}
@@ -254,29 +276,6 @@ const Home = () => {
             ) : (
               <FaVolumeLow className="" />
             )}
-          </div>
-        </div>
-
-        <div className="relative">
-          <motion.div
-            whileTap={{ top: 0 }}
-            //make faster
-            transition={{ duration: 0.1 }}
-            onClick={() => {
-              newgame_sound.play();
-              resetGame();
-            }}
-            className="flex relative bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer -top-1 text-colorBg z-20"
-          >
-            NEW GAME
-          </motion.div>
-          <div
-            className="flex bg-colorBoard px-4 py-2 rounded-[8px] cursor-pointer text-colorBoard top-0 right-0 absolute z-10"
-            style={{
-              filter: "brightness(0.8)",
-            }}
-          >
-            NEW GAME
           </div>
         </div>
       </div>
