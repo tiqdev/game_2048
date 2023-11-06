@@ -30,6 +30,12 @@ export default defineConfig({
           "src": "/image/png/512.png",
           "sizes": "512x512",
           "type": "image/png"
+        },
+        {
+          "src": "/image/png/mask-icon.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
         }
       ]
     },
